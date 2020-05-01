@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD Live Preview</title>
+</head>
+
+<body onload="init();">
+    <h1>Markdown Live Preview</h1>
+    <table>
+        <tr>
+            <td><textarea name="" id="input" cols="50" rows="50"></textarea></td>
+            <td><textarea name="" id="output-raw" cols="50" rows="50" readonly></textarea></td>
+            <td><div id="output-rendered">
+
+            </div></td>
+        </tr>
+    </table>
+    <button onclick="switchOutput();">Switch Raw/Rendered</button>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
+    <script>
+        var converter = new showdown.Converter()
+        var state = false
+        var text;
+        var html;
+        $('#input').keyup(() => {
+            text = $('#input').val()
+            html = converter.makeHtml(text)
+            console.log(text)
+            $('#output-rendered').html(html)
+            $('#output-raw').html(html)
+        })
+        function switchOutput() {
+            if(state == false) {
+                $('#output-rendered').hide()
+                $('#output-raw').show()
+                state = true
+            } else if (state == true) {
+                $('#output-rendered').show()
+                $('#output-raw').hide()
+                state = false
+            }
+        }
+        function init() {
+            $('#output-raw').hide()
+            $('#output-rendered').show()
+            state = false
+        }
+    </script>
+</body>
+
+</html>
+
+<style>
+    td {
+        vertical-align: top;
+    }
+</style>
